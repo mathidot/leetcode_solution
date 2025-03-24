@@ -1,5 +1,5 @@
 test:
-	gcc -g -O3 array.cpp -lstdc++
+	gcc -g -O0 nthUglyNumber.cpp -lstdc++
 	./a.out
 
 .PHONY: test
