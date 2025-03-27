@@ -69,4 +69,25 @@ public:
         return deleteDuplicates_recursive(head->next);
     }
 
+    ListNode* deleteDuplicates_easy(ListNode *head) {
+        if (head == nullptr) return head;
+        ListNode *slow = head, *fast = head;
+        while (fast != nullptr) {
+            if (fast->val != slow->val) {
+                slow->next = fast;
+                slow = slow->next;
+            }
+            fast = fast->next;
+        }
+        ListNode *p = slow->next;
+        while (p != nullptr) {
+            ListNode *temp = p;
+            p = p->next;
+            delete p;
+        }
+
+        slow->next = nullptr;
+        return head;
+    }
+
 };
