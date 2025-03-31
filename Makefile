@@ -1,5 +1,5 @@
 test:
-	gcc -g -O0 checkInclusion.cpp -lstdc++
+	gcc -g -O0 merge.cpp -lstdc++
 	./a.out
 
 .PHONY: test
