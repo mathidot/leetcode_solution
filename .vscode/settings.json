@@ -51,6 +51,9 @@
         "concepts": "cpp",
         "format": "cpp",
         "numbers": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "cstring": "cpp",
+        "unordered_set": "cpp",
+        "set": "cpp"
     }
 }
