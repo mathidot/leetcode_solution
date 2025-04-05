@@ -9,5 +9,7 @@
 #include <limits>
 #include <set>
 #include <unordered_set>
+#include <numeric>
+#include <cmath>
 #include "ListNode.h"
 using namespace std;
