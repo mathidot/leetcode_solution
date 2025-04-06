@@ -50,5 +50,6 @@ public:
             }
             ans = std::max(ans, right - left);
         }
+        return ans;
     }
 };

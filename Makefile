@@ -1,5 +1,5 @@
 test:
-	gcc -g -O0 numSubarrayProductLessThanK.cpp -lstdc++
+	gcc -g -O0 NumMatrix.cpp -lstdc++
 	./a.out
 clean:
 	rm *.out
