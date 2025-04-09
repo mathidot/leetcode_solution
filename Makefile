@@ -1,5 +1,5 @@
 test:
-	gcc -g -O0 MyCircularDeque.cpp -lstdc++
+	gcc -g -O0 FrontMiddleBackQueue.cpp -lstdc++
 	./a.out
 clean:
 	rm *.out
