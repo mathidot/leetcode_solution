@@ -1,4 +1,5 @@
 #include <vector>
+#include <list>
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -16,4 +17,6 @@
 #include <iomanip>
 #include "ListNode.h"
 #include "DoubleListNode.h"
+#include "TreeNode.h"
+#include "Node.h"
 using namespace std;
