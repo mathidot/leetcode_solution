@@ -15,6 +15,7 @@
 #include <charconv>
 #include <regex>
 #include <iomanip>
+#include <array>
 #include "ListNode.h"
 #include "DoubleListNode.h"
 #include "TreeNode.h"
