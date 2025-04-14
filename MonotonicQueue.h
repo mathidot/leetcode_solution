@@ -60,6 +60,4 @@ public:
     bool isEmpty() const {
         return q.empty();
     }
-
-
 };
