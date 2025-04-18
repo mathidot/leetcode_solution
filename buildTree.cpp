@@ -38,6 +38,25 @@ private:
         return node;
     }
 
+    TreeNode* constructIII(vector<int>::iterator pre_left, vector<int>::iterator pre_right,
+                          vector<int>::iterator post_left, vector<int>::iterator post_right)
+    {
+        if (pre_left == pre_right) {
+            return nullptr;
+        }
+        TreeNode* node = new TreeNode(*pre_left);
+        size_t left_size = distance(pre_left, pre_right) >> 1;
+        size_t right_size = distance(pre_left, pre_right) - left_size - 1;
+        
+        node->left = constructIII(next(pre_left), next(pre_left, left_size + 1),
+                                 post_left, next(post_left, left_size));
+
+        node->right = constructIII(next(pre_left, left_size + 1), pre_right,
+                                  next(post_left, left_size), prev(post_right));
+        return node;
+    }
+
+
 public:
     TreeNode* buildTreeI(vector<int>& preorder, vector<int>& inorder) {
         TreeNode* root = constructI(preorder.begin(), preorder.end(),
@@ -47,6 +66,11 @@ public:
 
     TreeNode* buildTreeII(vector<int>& inorder, vector<int>& postorder) {
         TreeNode* root = constructII(inorder.begin(), inorder.end(), postorder.begin(), postorder.end());
+        return root;
+    }
+
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        TreeNode *root = constructIII(preorder.begin(), preorder.end(), postorder.begin(), postorder.end());
         return root;
     }
 };
