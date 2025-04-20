@@ -13,6 +13,39 @@ public:
         return root;
     }
 
+    Node* connect(Node* root) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        
+        std::queue<Node*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int levelSize = q.size();
+            for (int i = 0; i < levelSize; ++i) {
+                Node* current = q.front();
+                q.pop();
+                
+                if (i < levelSize - 1) {
+                    current->next = q.front();
+                } else {
+                    current->next = nullptr;
+                }
+                cout << endl;
+                
+                if (current->left) {
+                    q.push(current->left);
+                }
+                if (current->right) {
+                    q.push(current->right);
+                }
+            }
+        }
+        return root;
+    }
+
+private:
     void traverse(Node* node1, Node* node2) {
         // 打印当前处理的节点对
         cout << "\n[Enter traverse] ";
@@ -45,7 +78,6 @@ public:
         cout << "[Exit traverse] Finished processing " << node1->val << " and " << node2->val << endl;
     }
 
-private:
     void printNodePair(Node* node1, Node* node2) {
         cout << "Node pair: ";
         if (node1) cout << node1->val; else cout << "null";
