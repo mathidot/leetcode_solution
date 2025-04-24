@@ -9,12 +9,11 @@ struct LfuNode {
 };
 
 struct LfuNodeCmp {
-    bool operator()(LfuNode &lhs, LfuNode &rhs) {
-        if (lhs.count != rhs.count) {
-            return lhs.count < rhs.count;
-        } else {
-            return lhs.id < rhs.id;
+    bool operator()(const LfuNode& a, const LfuNode& b) const {
+        if (a.count != b.count) {
+            return a.count < b.count;  // 优先按频率排序
         }
+        return a.id < b.id;  // 频率相同则按时间戳排序
     }
 };
 
@@ -39,17 +38,46 @@ public:
         if (cache.count(key) == 0) {
             return -1;
         }
-
-        if (cache.size() == cap) {
-            auto lfu_it = keyToNode[key];
-            Node new_node = Node{key, lfu_it->count+1, GetId()};
-            
-            return cache[key];
-        }
-
+        auto lfu_it = keyToNode[key];
+        LfuNode new_node = LfuNode{key, lfu_it->count+1, GetId()};
+        auto[new_node_it, isInsert] = lfu_queue.insert(new_node);
+        if (!isInsert) return -1;
+        keyToNode[key] = new_node_it;
+        lfu_queue.erase(lfu_it);
+        return cache[key];
     }
     
     void put(int key, int value) {
-        
+        LfuNode new_node = LfuNode{key, 1, GetId()};
+        if (cache.count(key) == 0) {
+            LfuNode new_node = LfuNode{key, 1, GetId()};
+            if (cache.size() == cap) {
+                auto erased_it = lfu_queue.begin();
+                auto erased_key = erased_it->key;
+                lfu_queue.erase(erased_it);
+                cache.erase(erased_key);
+                keyToNode.erase(erased_key);
+                auto[new_node_it, isInsert] = lfu_queue.insert(new_node);
+                if (!isInsert) return;
+                keyToNode[key] = new_node_it;
+                cache[key] = value;
+                return;
+            } else {
+                auto[new_node_it, isInsert] = lfu_queue.insert(new_node);
+                if (!isInsert) return;
+                cache[key] = value;
+                keyToNode[key] = new_node_it;
+                return;               
+            }
+        } else {
+            auto lfu_it = keyToNode[key];
+            LfuNode new_node = LfuNode{key, lfu_it->count+1, GetId()};
+            auto[new_node_it, isInsert] = lfu_queue.insert(new_node);
+            if (!isInsert) return;
+            keyToNode[key] = new_node_it;
+            lfu_queue.erase(lfu_it);
+            cache[key] = value;
+            return;
+        }
     }
 };
