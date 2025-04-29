@@ -20,6 +20,8 @@ public:
             }
             res.push_front(deck[i]);
         }
+        vector<int>ans(res.begin(), res.end());
+        return ans;
     }
 };
 
