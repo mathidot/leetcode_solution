@@ -49,3 +49,91 @@ public:
         return _count;
     }
 };
+
+#include <unordered_map>
+#include <vector>
+#include <limits> // 用于 std::numeric_limits
+
+template <typename T>
+class UnionFind {
+private:
+    std::unordered_map<T, T> parent;
+    int _count = 0;
+
+    // 定义一个不可能的值作为错误码
+    static constexpr T ERROR_CODE = static_cast<T>(-1);
+
+public:
+    // 检查元素是否存在
+    bool contains(const T& x) const {
+        return parent.find(x) != parent.end();
+    }
+
+    // 添加新元素
+    void add(const T& x) {
+        if (!contains(x)) {
+            parent[x] = x;
+            _count++;
+        }
+    }
+
+    // 查找根节点，如果不存在返回ERROR_CODE
+    T find(const T& x) {
+        if (!contains(x)) {
+            return ERROR_CODE;
+        }
+        
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]); // 路径压缩
+        }
+        return parent[x];
+    }
+
+    // 合并两个集合
+    bool unionSets(const T& x, const T& y) {
+        if (!contains(x)) add(x);
+        if (!contains(y)) add(y);
+        
+        T rootX = find(x);
+        T rootY = find(y);
+        
+        // 检查是否查找失败
+        if (rootX == ERROR_CODE || rootY == ERROR_CODE) {
+            return false;
+        }
+        
+        if (rootX == rootY) return true;
+
+        parent[rootY] = rootX;
+        _count--;
+        return true;
+    }
+
+    // 检查两个元素是否连通
+    bool isConnected(const T& x, const T& y) {
+        T rootX = find(x);
+        T rootY = find(y);
+        
+        // 任一元素不存在或查找失败都认为不连通
+        if (rootX == ERROR_CODE || rootY == ERROR_CODE) {
+            return false;
+        }
+        return rootX == rootY;
+    }
+
+    // 返回连通分量数量
+    int count() const {
+        return _count;
+    }
+
+    // 获取所有根节点
+    std::vector<T> getRoots() const {
+        std::vector<T> roots;
+        for (const auto& [key, val] : parent) {
+            if (key == val) {
+                roots.push_back(key);
+            }
+        }
+        return roots;
+    }
+};
