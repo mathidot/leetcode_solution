@@ -72,6 +72,52 @@ public:
     }
 };
 
+class GraphDouble {
+private:
+    // 修改权重为 double 类型
+    std::vector<std::vector<std::pair<int, double>>> adjList;
+
+    bool isValidNode(int node) const {
+        return node >= 0 && node < adjList.size();
+    }
+
+public:
+    explicit GraphDouble(int nodeCount = 0) : adjList(nodeCount) {}
+
+    // 修改权重参数为 double
+    void addDirectedEdge(int from, int to, double weight) {
+        if (!isValidNode(from) || !isValidNode(to)) return;
+        adjList[from].emplace_back(to, weight);
+    }
+
+    void addUndirectedEdge(int node1, int node2, double weight) {
+        addDirectedEdge(node1, node2, weight);
+        addDirectedEdge(node2, node1, weight);
+    }
+
+    int size() const { return adjList.size(); }
+
+    std::vector<int> neighbors(int node) const {
+        std::vector<int> result;
+        if (!isValidNode(node)) return result;
+        for (const auto& [neighbor, _] : adjList[node]) {
+            result.push_back(neighbor);
+        }
+        return result;
+    }
+
+    // 返回 double 类型权重
+    double weight(int from, int to) const {
+        if (!isValidNode(from) || !isValidNode(to)) {
+            return 0.0; // 无效节点返回0概率
+        }
+        for (const auto& [neighbor, weight] : adjList[from]) {
+            if (neighbor == to) return weight;
+        }
+        return 0.0; // 无边连接返回0概率
+    }
+};
+
 // 自定义 State 结构体
 struct State {
     int node;
