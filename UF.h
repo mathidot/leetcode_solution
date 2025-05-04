@@ -18,7 +18,7 @@ public:
     }
     
     // 将节点 p 和节点 q 连通
-    void union_(int p, int q) {
+    void union(int p, int q) {
         int rootP = find(p);
         int rootQ = find(q);
         
