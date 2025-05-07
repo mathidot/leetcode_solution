@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> res;
         vector<int> track;
         int sum = 0;
@@ -26,14 +26,9 @@ private:
         }
 
         for (int i = start; i < nums.size(); ++i) {
-            // 跳过重复元素，避免生成重复子集
-            if (i > start && nums[i] == nums[i - 1]) {
-                continue;
-            }
-            
             track.push_back(nums[i]);
             sum += nums[i];
-            backtrack(nums, i + 1, res, track, sum, target);
+            backtrack(nums, i, res, track, sum, target);
             track.pop_back();
             sum -= nums[i];
         }
