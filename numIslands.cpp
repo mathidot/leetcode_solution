@@ -5,7 +5,7 @@ private:
     vector<vector<int>> dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     void dfs(vector<vector<char>>& grid, int i, int j, vector<vector<bool>>& visited) {
         int m = grid.size(), n = grid[0].size();
-        if (i < 0 || j < 0 || i >= m || j >= n) {
+        if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == '0') {
             // 超出索引边界
             return;
         }
