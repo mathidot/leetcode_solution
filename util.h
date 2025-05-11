@@ -16,6 +16,9 @@
 #include <regex>
 #include <iomanip>
 #include <array>
+#include <utility>
+#include <functional>
+#include <string_view>
 #include "ListNode.h"
 #include "DoubleListNode.h"
 #include "TreeNode.h"
