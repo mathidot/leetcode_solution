@@ -17,8 +17,8 @@ bool operator==(const Point& a, const Point& b) {
 
 
 int bfs(const Graph &graph, const Point &start, const Point &target) {
-    std::queue<Point> q;
 /*
+    std::queue<Point> q;
     auto point_hash = [](const Point& p) {
         return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
     };
